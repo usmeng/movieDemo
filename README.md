@@ -7,8 +7,8 @@ Time spent: **4** hours spent in total
 ## Screenshots
 
 Here's a walkthrough of implemented user stories:
-<img src='https://github.com/usmeng/movieDemo/blob/master/movie_list.png' title='movie list' width='500' alt='movie list' />
-<img src='https://github.com/usmeng/movieDemo/blob/master/movie_detail.png' title='movie_detail' width='400' alt='movie_detail' />
+<img src='https://github.com/usmeng/movieDemo/blob/master/movie_list.png' title='movie list' width='300' alt='movie list' />
+<img src='https://github.com/usmeng/movieDemo/blob/master/movie_detail.png' title='movie_detail' width='300' alt='movie_detail' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
