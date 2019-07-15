@@ -1,4 +1,4 @@
-package meng.com.moivelist.transformer;
+package meng.com.moivelist.view;
 
 import java.io.Serializable;
 

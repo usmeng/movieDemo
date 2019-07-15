@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="meng.com.moivelist.transformer.MovieViewModel" />
+            type="meng.com.moivelist.view.MovieViewModel" />
     </data>
 
     <ScrollView

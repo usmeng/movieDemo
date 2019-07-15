@@ -14,7 +14,6 @@ import java.util.List;
 
 import meng.com.moivelist.R;
 import meng.com.moivelist.databinding.MovieItemViewBinding;
-import meng.com.moivelist.transformer.MovieViewModel;
 
 /**
  * Created by mengzhou on 7/14/19.

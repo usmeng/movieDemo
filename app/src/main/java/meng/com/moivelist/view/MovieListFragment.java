@@ -17,9 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import meng.com.moivelist.R;
 import meng.com.moivelist.data.RetrofitAPI;
 import meng.com.moivelist.databinding.MovieListFragmentBinding;
-import meng.com.moivelist.transformer.MovieDetailEvent;
 import meng.com.moivelist.transformer.MovieTransformer;
-import meng.com.moivelist.transformer.MovieViewModel;
 
 /**
  * Created by mengzhou on 7/14/19.

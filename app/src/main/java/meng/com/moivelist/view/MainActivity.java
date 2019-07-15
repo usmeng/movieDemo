@@ -10,7 +10,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import meng.com.moivelist.R;
-import meng.com.moivelist.transformer.MovieDetailEvent;
 
 /**
  * Created by mengzhou on 7/14/19.

@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 
 import meng.com.moivelist.R;
 import meng.com.moivelist.databinding.MovieItemDetailViewBinding;
-import meng.com.moivelist.transformer.MovieViewModel;
 
 /**
  * Created by mengzhou on 7/15/19.

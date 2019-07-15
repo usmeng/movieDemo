@@ -5,6 +5,7 @@ import java.util.List;
 
 import meng.com.moivelist.data.MovieServerModel;
 import meng.com.moivelist.data.RetrofitAPI;
+import meng.com.moivelist.view.MovieViewModel;
 
 /**
  * Created by mengzhou on 7/14/19.
