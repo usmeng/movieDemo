@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -21,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitAPI {
-
 
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
     private static final String API_KEY = "api_key";
