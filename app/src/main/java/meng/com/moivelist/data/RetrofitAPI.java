@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
