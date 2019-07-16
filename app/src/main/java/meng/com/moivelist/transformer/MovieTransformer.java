@@ -1,8 +1,11 @@
 package meng.com.moivelist.transformer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import meng.com.moivelist.data.GenresResponseModel;
 import meng.com.moivelist.data.MovieServerModel;
 import meng.com.moivelist.data.RetrofitAPI;
 import meng.com.moivelist.view.MovieViewModel;
@@ -27,9 +30,33 @@ public class MovieTransformer {
         movieViewModel.originImagePath = RetrofitAPI.IMAGE_BASE_URL + RetrofitAPI.IMAGE_SIZE_1280 + model.poster_path;
         movieViewModel.title = model.title;
         movieViewModel.overview = model.overview;
-        movieViewModel.genre = model.genre_ids.toString();
+        movieViewModel.genre = buildGenre(model.genre_ids);
         movieViewModel.releaseYear = model.release_date;
         movieViewModel.score = String.valueOf(model.popularity);
         return movieViewModel;
+    }
+
+    private String buildGenre(List<Integer> genreIDList) {
+        if (genreIDList == null || genreIDList.isEmpty()) return "";
+
+        Map<Integer, String> genreMap = MovieDataProvider.getInstance().getGenreMap();
+        StringBuilder genreString = new StringBuilder();
+        for (int id : genreIDList) {
+            genreString.append(genreMap.get(id)).append(", ");
+        }
+        genreString.delete(genreString.lastIndexOf(","), genreString.length());
+
+        return genreString.toString();
+    }
+
+    public static Map<Integer, String> toGenreMap(List<GenresResponseModel.Genre> genreList) {
+        Map<Integer, String> genresMap = new HashMap<>();
+        if (genreList == null) return genresMap;
+
+        for (GenresResponseModel.Genre genre : genreList) {
+            genresMap.put(genre.id, genre.name);
+        }
+
+        return genresMap;
     }
 }

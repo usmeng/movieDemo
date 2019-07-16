@@ -15,4 +15,7 @@ public interface RestAPI {
 
     @GET("discover/movie")
     Observable<MovieResponseModel> mostPopularMovies(@QueryMap @NonNull Map<String, String> values);
+
+    @GET("genre/movie/list")
+    Observable<GenresResponseModel> genreList(@QueryMap @NonNull Map<String, String> values);
 }

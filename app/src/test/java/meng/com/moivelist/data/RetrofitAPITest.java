@@ -18,13 +18,20 @@ public class RetrofitAPITest {
     public void getMostPopularMovies() throws Exception {
         System.out.println("---- getMostPopularMovies ----");
         RetrofitAPI api = RetrofitAPI.getInstance();
-        Observable<List<MovieServerModel>> mostPopularMovies = api.getMostPopularMovies(new HashMap<>());
+        Observable<List<MovieServerModel>> mostPopularMovies = api.getMostPopularMovies(1);
         mostPopularMovies.subscribe(movieServerModels -> {
             System.out.println(movieServerModels.size());
             for (MovieServerModel model : movieServerModels) {
                 System.out.println(model.title);
             }
         });
+        Thread.sleep(5 * 1000);
+    }
+
+    @Test
+    public void genreList() throws InterruptedException {
+        RetrofitAPI api = RetrofitAPI.getInstance();
+        api.getGenreList().subscribe(genreList -> System.out.println(genreList.size()));
         Thread.sleep(5 * 1000);
     }
 

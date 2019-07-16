@@ -1,5 +1,6 @@
-package meng.com.moivelist.view;
+package meng.com.moivelist;
 
+import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +10,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import meng.com.moivelist.R;
+import java.util.Map;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import meng.com.moivelist.data.RetrofitAPI;
+import meng.com.moivelist.transformer.MovieDataProvider;
+import meng.com.moivelist.transformer.MovieTransformer;
+import meng.com.moivelist.view.MovieDetailEvent;
+import meng.com.moivelist.view.MovieDetailFragment;
+import meng.com.moivelist.view.MovieListFragment;
 
 /**
  * Created by mengzhou on 7/14/19.
@@ -24,11 +33,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        initGenreMap();
+
         movieListFragment = MovieListFragment.newInstance(new Bundle());
         getSupportFragmentManager().beginTransaction()
                                    .add(R.id.movie_fragment, movieListFragment, MovieListFragment.TAG)
-                                   .addToBackStack("")
                                    .commit();
+    }
+
+    private void initGenreMap() {
+        RetrofitAPI.getInstance().getGenreList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(genres -> MovieDataProvider.getInstance().initGenreMap(MovieTransformer.toGenreMap(genres)));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -69,8 +69,8 @@ public class MovieListFragment extends Fragment {
     @NonNull
     private RecyclerView.OnScrollListener getOnScrollListener() {
         return new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     if (!movieListFragmentBinding.movieRecycleview.canScrollVertically(1)) {
                         fetchData(++page);
