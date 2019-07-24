@@ -4,13 +4,15 @@ import java.util.Map;
 
 public class MovieDataProvider {
 
-    private static MovieDataProvider instance = new MovieDataProvider();
+    private static class MovieDataProviderHolder {
+        static MovieDataProvider instance = new MovieDataProvider();
+    }
     private Map<Integer, String> genreMap;
 
     private MovieDataProvider(){}
 
     public static MovieDataProvider getInstance() {
-        return instance;
+        return MovieDataProviderHolder.instance;
     }
 
     public Map<Integer, String> getGenreMap() {

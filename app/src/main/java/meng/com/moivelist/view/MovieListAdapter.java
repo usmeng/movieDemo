@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import meng.com.moivelist.R;
-import meng.com.moivelist.databinding.MovieItemViewBinding;
 
 /**
  * Created by mengzhou on 7/14/19.
@@ -35,24 +34,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListViewHolder> 
 
     public void addData(List<MovieViewModel> data) {
         this.data.addAll(data);
-        notifyDataSetChanged();
+        notifyItemRangeChanged(this.data.size() - data.size(), data.size());
     }
 
     @Override
     public MovieListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MovieItemViewBinding movieItemViewBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.movie_item_view, null, false);
-        MovieListViewHolder movieListViewHolder = new MovieListViewHolder(movieItemViewBinding.getRoot());
-        movieListViewHolder.setMovieItemViewBinding(movieItemViewBinding);
-        return movieListViewHolder;
+        return new MovieListViewHolder(DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.movie_item_view, null, false));
     }
 
     @Override
     public void onBindViewHolder(final MovieListViewHolder holder, int position) {
         MovieViewModel movieViewModel = data.get(position);
-        MovieItemViewBinding movieItemViewBinding = holder.getMovieItemViewBinding();
-        Glide.with(context).load(movieViewModel.thumbNailImagePath).into(movieItemViewBinding.movieImage);
-        movieItemViewBinding.setViewmodel(movieViewModel);
-        holder.getMovieItemViewBinding().movieContainer.setOnClickListener(v -> {
+        Glide.with(context).load(movieViewModel.thumbNailImagePath).into(holder.binding.movieImage);
+        holder.binding.setViewmodel(movieViewModel);
+        holder.binding.movieContainer.setOnClickListener(v -> {
             if (onItemClickListener == null) return;
             onItemClickListener.onItemClick(movieViewModel);
         });

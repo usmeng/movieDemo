@@ -1,7 +1,7 @@
 package meng.com.moivelist.view;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import meng.com.moivelist.databinding.MovieItemViewBinding;
 
@@ -11,17 +11,11 @@ import meng.com.moivelist.databinding.MovieItemViewBinding;
 
 class MovieListViewHolder extends RecyclerView.ViewHolder {
 
-    private MovieItemViewBinding movieItemViewBinding;
+    public MovieItemViewBinding binding;
 
-    public MovieListViewHolder(View itemView) {
-        super(itemView);
+    public MovieListViewHolder(@NonNull MovieItemViewBinding movieItemViewBinding) {
+        super(movieItemViewBinding.getRoot());
+        this.binding = movieItemViewBinding;
     }
 
-    public void setMovieItemViewBinding(MovieItemViewBinding movieItemViewBinding) {
-        this.movieItemViewBinding = movieItemViewBinding;
-    }
-
-    public MovieItemViewBinding getMovieItemViewBinding() {
-        return movieItemViewBinding;
-    }
 }

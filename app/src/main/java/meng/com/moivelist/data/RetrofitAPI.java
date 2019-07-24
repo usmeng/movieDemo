@@ -31,7 +31,9 @@ public class RetrofitAPI {
     public static final String IMAGE_SIZE_300 = "w300/";
     public static final String IMAGE_SIZE_1280 = "w780/";
 
-    private static RetrofitAPI mRetrofitAPI = new RetrofitAPI();
+    private static class RetrofitAPIHolder {
+        static RetrofitAPI instance = new RetrofitAPI();
+    }
     private RestAPI mAPI;
 
     private RetrofitAPI() {
@@ -44,7 +46,7 @@ public class RetrofitAPI {
     }
 
     public static RetrofitAPI getInstance() {
-        return mRetrofitAPI;
+        return RetrofitAPIHolder.instance;
     }
 
     public Observable<List<MovieServerModel>> getMostPopularMovies(int page) {
