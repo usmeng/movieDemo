@@ -10,11 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import java.util.List;
+
 import meng.com.moivelist.R;
+import meng.com.moivelist.data.MovieServerModel;
+import meng.com.moivelist.data.RestAPI;
 import meng.com.moivelist.data.RetrofitAPI;
 import meng.com.moivelist.databinding.MovieListFragmentBinding;
 import meng.com.moivelist.transformer.MovieTransformer;
@@ -49,9 +53,17 @@ public class MovieListFragment extends Fragment {
     }
 
     private void fetchData(int page) {
-        RetrofitAPI.getInstance().getMostPopularMovies(page)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movieServerModels -> movieListAdapter.addData(movieListTransformer.toMovieList(movieServerModels)));
+        RetrofitAPI.getInstance().getMostPopularMovies(page, new RestAPI.Callback<List<MovieServerModel>>() {
+            @Override
+            public void onResult(List<MovieServerModel> result) {
+                movieListAdapter.addData(movieListTransformer.toMovieList(result));
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Nullable

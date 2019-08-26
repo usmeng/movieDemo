@@ -4,12 +4,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import java.util.List;
+
+import meng.com.moivelist.data.GenresResponseModel;
+import meng.com.moivelist.data.RestAPI;
 import meng.com.moivelist.data.RetrofitAPI;
 import meng.com.moivelist.transformer.MovieDataProvider;
 import meng.com.moivelist.transformer.MovieTransformer;
@@ -39,9 +43,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initGenreMap() {
-        RetrofitAPI.getInstance().getGenreList()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(genres -> MovieDataProvider.getInstance().initGenreMap(MovieTransformer.toGenreMap(genres)));
+        RetrofitAPI.getInstance().getGenreList(new RestAPI.Callback<List<GenresResponseModel.Genre>>() {
+            @Override
+            public void onResult(List<GenresResponseModel.Genre> result) {
+                MovieDataProvider.getInstance().initGenreMap(MovieTransformer.toGenreMap(result));
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,13 +1,15 @@
 package meng.com.moivelist.data;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -17,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by mengzhou on 7/14/19.
  */
-
 public class RetrofitAPI {
 
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
@@ -34,22 +35,24 @@ public class RetrofitAPI {
     private static class RetrofitAPIHolder {
         static RetrofitAPI instance = new RetrofitAPI();
     }
+
     private RestAPI mAPI;
 
     private RetrofitAPI() {
-        Gson gson = new GsonBuilder().create();
-        mAPI = new Retrofit.Builder().baseUrl(BASE_URL)
+        mAPI = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
                 .client(new OkHttpClient.Builder().build())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build().create(RestAPI.class);
+                .build()
+                .create(RestAPI.class);
     }
 
     public static RetrofitAPI getInstance() {
         return RetrofitAPIHolder.instance;
     }
 
-    public Observable<List<MovieServerModel>> getMostPopularMovies(int page) {
+    public Single<List<MovieServerModel>> getMostPopularMovies(int page) {
         Map<String, String> values = new HashMap<>();
         values.put(PAGE, String.valueOf(page));
         values.put(API_KEY, API_KEY_VALUE);
@@ -59,10 +62,52 @@ public class RetrofitAPI {
                 .map(response -> response.results);
     }
 
-    public Observable<List<GenresResponseModel.Genre>> getGenreList() {
+    public void getMostPopularMovies(int page, @NonNull final RestAPI.Callback<List<MovieServerModel>> call) {
+        Map<String, String> values = new HashMap<>();
+        values.put(PAGE, String.valueOf(page));
+        values.put(API_KEY, API_KEY_VALUE);
+        values.put(SORT_BY, SORT_BY_VALUE);
+
+        mAPI.mostPopularMovies(values).subscribeOn(Schedulers.io())
+                .map(response -> response.results)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<MovieServerModel>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(List<MovieServerModel> movieServerModels) {
+                        call.onResult(movieServerModels);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        call.onError(e);
+                    }
+                });
+    }
+
+    public void getGenreList(@NonNull final RestAPI.Callback<List<GenresResponseModel.Genre>> callback) {
         Map<String, String> values = new HashMap<>();
         values.put(API_KEY, API_KEY_VALUE);
 
-        return mAPI.genreList(values).subscribeOn(Schedulers.io()).map(genresResponseModel -> genresResponseModel.genres);
+        mAPI.genreList(values).subscribeOn(Schedulers.io()).map(genresResponseModel -> genresResponseModel.genres)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<GenresResponseModel.Genre>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(List<GenresResponseModel.Genre> genreList) {
+                        callback.onResult(genreList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e);
+                    }
+                });
     }
 }
